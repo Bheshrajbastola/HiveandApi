@@ -9,8 +9,8 @@ class CourseEntity {
 
   factory CourseEntity.fromJson(Map<String, dynamic> json) {
     return CourseEntity(
-      courseId: json['courseId'] as String?,
-      courseName: json['courseName'] as String,
+      courseId: json['courseId'],
+      courseName: json['courseName'],
     );
   }
 }

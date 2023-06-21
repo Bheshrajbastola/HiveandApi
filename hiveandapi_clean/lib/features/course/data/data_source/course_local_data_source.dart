@@ -5,11 +5,12 @@ import 'package:hiveandapi_clean/core/network/local/hive_service.dart';
 import 'package:hiveandapi_clean/features/course/data/model/course_hive_model.dart';
 import 'package:hiveandapi_clean/features/course/domain/entity/course_entity.dart';
 
-final courseLocalDataSourceProvider = Provider<CourseLocalDataSource>(
+final courseLocalDataSourceProvider = Provider(
   (ref) => CourseLocalDataSource(
-    hiveService: ref.read(hiveServiceProvider),
-    courseHiveModel: ref.read(courseHiveModelProvider),
-  ),
+      hiveService: ref.read(hiveServiceProvider),
+      courseHiveModel: ref.read(
+        courseHiveModelProvider,
+      )),
 );
 
 class CourseLocalDataSource {
@@ -20,12 +21,13 @@ class CourseLocalDataSource {
     required this.hiveService,
     required this.courseHiveModel,
   });
-  // Add Course
+
+  // Add batch
   Future<Either<Failure, bool>> addCourse(CourseEntity course) async {
     try {
-      // Convert Entity to Hive Object
+      //convert entity to hive object
       final hiveCourse = courseHiveModel.toHiveModel(course);
-      // Add to Hive
+      // Add to hive
       await hiveService.addCourse(hiveCourse);
       return const Right(true);
     } catch (e) {
@@ -33,14 +35,14 @@ class CourseLocalDataSource {
     }
   }
 
-  // Get All Courses
+  //get all batch
   Future<Either<Failure, List<CourseEntity>>> getAllCourses() async {
     try {
-      // Get from Hive
-      final hiveCourses = await hiveService.getAllCourses();
-      // Convert Hive Object to Entity
-      final courses = courseHiveModel.toEntityList(hiveCourses);
-      return Right(courses);
+      //get all batches from hive
+      final courses = await hiveService.getAllCourses();
+      // convert hive object into entity
+      final courseEntities = courseHiveModel.toEntityList(courses);
+      return Right(courseEntities);
     } catch (e) {
       return Left(Failure(error: e.toString()));
     }

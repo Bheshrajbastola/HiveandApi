@@ -5,16 +5,19 @@ import 'package:hiveandapi_clean/features/course/data/data_source/course_local_d
 import 'package:hiveandapi_clean/features/course/domain/entity/course_entity.dart';
 import 'package:hiveandapi_clean/features/course/domain/repository/course_repository.dart';
 
-final localCourseRepositoryProvider = Provider<ICourseRepository>(
-  (ref) => LocalCourseRepositoryImpl(
-    courseLocalDataSource: ref.read(courseLocalDataSourceProvider),
-  ),
-);
 
-class LocalCourseRepositoryImpl implements ICourseRepository {
+final courseLocalRepoProvider = Provider<ICourseRepository>((ref) {
+  return CourseLocalRepositoryImpl(
+    courseLocalDataSource: ref.read(courseLocalDataSourceProvider),
+  );
+});
+
+class CourseLocalRepositoryImpl implements ICourseRepository {
   final CourseLocalDataSource courseLocalDataSource;
 
-  LocalCourseRepositoryImpl({required this.courseLocalDataSource});
+  CourseLocalRepositoryImpl({
+    required this.courseLocalDataSource,
+  });
 
   @override
   Future<Either<Failure, bool>> addCourse(CourseEntity course) {

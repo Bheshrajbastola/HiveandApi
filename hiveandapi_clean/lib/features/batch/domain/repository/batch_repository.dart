@@ -9,7 +9,7 @@ final batchRepositoryProvider = Provider<IBatchRepository>((ref) {
   // For internet connectivity we will check later
  
  //for remote
-  //return ref.read(batchLocalRepoProvider);
+ // return ref.read(batchLocalRepoProvider);
 
 
 // for the internet

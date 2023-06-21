@@ -1,50 +1,69 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
 
-import 'package:hiveandapi_clean/features/auth/domain/entity/student_entity.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hiveandapi_clean/features/auth/domain/use_case/auth_usecase.dart';
 import 'package:hiveandapi_clean/features/auth/presentation/state/auth_state.dart';
 
-final authViewModelProvider =
-    StateNotifierProvider<AuthViewModel, AuthState>((ref) {
-  return AuthViewModel(
-    ref.read(authUseCaseProvider),
-  );
-});
+final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>(
+  (ref) => AuthViewModel(ref.read(authUseCaseProvider)),
+);
 
 class AuthViewModel extends StateNotifier<AuthState> {
-  final AuthUseCase _authUseCase;
+  final AuthUseCase authUseCase;
 
-  AuthViewModel(this._authUseCase) : super(AuthState(isLoading: false));
+  AuthViewModel(this.authUseCase) : super(AuthState.initial());
 
-  Future<void> registerStudent(StudentEntity student) async {
+  Future<void> uploadProfilePicture(File image) async {
     state = state.copyWith(isLoading: true);
-    var data = await _authUseCase.registerStudent(student);
+    var data = await authUseCase.uploadProfilePicture(image);
+
     data.fold(
-      (failure) => state = state.copyWith(
-        isLoading: false,
-        error: failure.error,
-      ),
-      (success) => state = state.copyWith(
-        isLoading: false,
-        error: null,
-      ),
+      (l) => state = state.copyWith(isLoading: false, error: l.error),
+      (r) => state = state.copyWith(isLoading: false, error: null),
     );
   }
 
-  Future<bool> loginStudent(String username, String password) async {
+  Future<void> registerStudent({
+    required String fname,
+    required String lname,
+    required String password,
+    String? image,
+    required String username,
+    required String phone,
+    required String batch,
+    required List<String> courses,
+  }) async {
     state = state.copyWith(isLoading: true);
-    bool isLogin = false;
-    var data = await _authUseCase.loginStudent(username, password);
-    data.fold(
-      (failure) =>
-          state = state.copyWith(isLoading: false, error: failure.error),
-      (success) {
-        state = state.copyWith(isLoading: false, error: null);
-        isLogin = success;
-      },
+    var data = await authUseCase.registerStudent(
+      fname: fname,
+      lname: lname,
+      password: password,
+      image: image,
+      username: username,
+      phone: phone,
+      batch: batch,
+      courses: courses,
     );
 
-    return isLogin;
+    data.fold(
+      (l) => state = state.copyWith(isLoading: false, error: l.error),
+      (r) => state = state.copyWith(isLoading: false, error: null),
+    );
+  }
+
+  Future<void> loginStudent({
+    required String email,
+    required String password,
+  }) async {
+    state = state.copyWith(isLoading: true);
+    var data = await authUseCase.loginStudent(
+      email: email,
+      password: password,
+    );
+
+    data.fold(
+      (l) => state = state.copyWith(isLoading: false, error: l.error),
+      (r) => state = state.copyWith(isLoading: false, error: null),
+    );
   }
 }
-
