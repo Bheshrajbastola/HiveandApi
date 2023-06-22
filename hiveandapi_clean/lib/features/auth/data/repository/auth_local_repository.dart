@@ -1,3 +1,5 @@
+// import 'dart:io';
+
 // import 'package:dartz/dartz.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:hiveandapi_clean/core/failure/failure.dart';
@@ -24,5 +26,11 @@
 //   @override
 //   Future<Either<Failure, bool>> registerStudent(StudentEntity student) {
 //     return _authLocalDataSource.registerStudent(student);
+//   }
+
+//   @override
+//   Future<Either<Failure, String>> uploadProfilePicture(File image) {
+//     // TODO: implement uploadProfilePicture
+//     throw UnimplementedError();
 //   }
 // }

@@ -4,7 +4,7 @@ class ApiEndpoints {
   static const Duration connectionTimeout = Duration(seconds: 1000);
   static const Duration receiveTimeout = Duration(seconds: 1000);
   
-   static const String baseUrl = "http://192.168.137.1:3000/api/v1/";
+   static const String baseUrl = "http://192.168.1.75:3000/api/v1/";
 
   // static const String baseUrl = "http://localhost:3000/api/v1/";
 
@@ -16,7 +16,7 @@ class ApiEndpoints {
   static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   static const String updateStudent = "auth/updateStudent/";
   static const String deleteStudent = "auth/deleteStudent/";
-  static const String uploadImage = "upload/uploadImage";
+  static const String uploadImage = "auth/uploadImage";
 
   // ====================== Batch Routes ======================
   static const String createBatch = "batch/createBatch";
