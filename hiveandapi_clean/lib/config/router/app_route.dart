@@ -14,9 +14,9 @@ class AppRoute {
   static getApplicationRoute() {
     return {
       splashRoute: (context) => const SplashView(),
-      loginRoute: (context) => const LoginScreen(),
+      loginRoute: (context) => const LoginView(),
       homeRoute: (context) => const HomeView(),
-      registerRoute: (context) => const RegisterScreen(),
+      registerRoute: (context) => const RegisterView(),
     };
   }
 }
